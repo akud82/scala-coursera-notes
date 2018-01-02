@@ -5,7 +5,7 @@ object ListUtils {
   def last[T](xs: List[T]): T =
     xs match {
       case List() => throw new Error("empty")
-      case List(x: T) => x
+      case List(x) => x
       case _ :: ys => last[T](ys)
     }
 
