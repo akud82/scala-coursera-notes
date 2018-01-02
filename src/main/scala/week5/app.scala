@@ -20,5 +20,11 @@ object triangles extends App {
 }
 
 object week5 extends App {
+  import mergesort._
 
+  val nums = List(145, 2, 43, 4, 100, 102, 5, 6, 7, 8, 9)
+  val fruits = List("fruit", "apple", "pineapple", "banana")
+
+  println(msort(nums))
+  println(msort(fruits))
 }
