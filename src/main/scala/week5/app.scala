@@ -19,12 +19,81 @@ object triangles extends App {
   }
 }
 
+object listfun {
+  def pack[T](xs: List[T]): List[List[T]] = xs match {
+    case Nil => Nil
+    case a :: _ =>
+      val (f, s) = xs span (y => y == a)
+      f :: pack(s)
+  }
+
+  def encode[T](xs: List[T]): List[(T, Int)] =
+    pack(xs).map((a) => (a.head, a.length))
+}
+
+object ex54 extends App {
+
+  val nums = List(1, -4, 24, 52, 5, -55)
+
+  nums.filter(x => x > 0)
+  nums.filterNot(x => x > 0)
+  nums.partition(x => x > 0)
+  nums.span(x => x > 0)
+
+  import listfun._
+
+  val data = List("a", "a", "a", "b", "c", "c", "a")
+  println(
+    pack(data)
+  )
+
+  println(
+    encode(data)
+  )
+}
+
+object ex55 extends App {
+  def sum(xs: List[Int]): Int = (0 :: xs) reduceLeft (_ + _)
+  def product(xs: List[Int]): Int = (1 :: xs) reduceLeft (_ * _)
+
+  def sum2(xs: List[Int]): Int = (xs foldLeft 0) (_ + _)
+  def product2(xs: List[Int]): Int = (xs foldLeft 1) (_ * _)
+
+  def concat[T](xs: List[T], ys: List[T]): List[T] =
+    (xs foldRight ys) ((x, y) => x :: y)
+
+  def mapFun[T, U](xs: List[T], f: T => U): List[U] =
+    (xs foldRight List[U]()) ((t, acc) => f(t) :: acc)
+
+  def lengthFun[T](xs: List[T]): Int =
+    (xs foldRight 0) ((_, acc) => acc + 1)
+
+  val l = List(1, 2, 3, 4, 5)
+  println(
+    mapFun(l, (x: Int) => "[" + x.toString + "]")
+  )
+
+  println(
+    lengthFun(l)
+  )
+}
+
+object ex56 extends App {
+  def factorial(n: Int): Int =
+    if (n == 0) 1
+    else n * factorial(n - 1)
+
+  def power(n: Int): Double = Math.pow(2, n)
+
+  val n = 7
+  println(
+    power(n + 1)
+  )
+  println(
+    factorial(n)
+  )
+}
+
 object week5 extends App {
-  import mergesort._
 
-  val nums = List(145, 2, 43, 4, 100, 102, 5, 6, 7, 8, 9)
-  val fruits = List("fruit", "apple", "pineapple", "banana")
-
-  println(msort(nums))
-  println(msort(fruits))
 }
