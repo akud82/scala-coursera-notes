@@ -28,19 +28,16 @@ object pairs extends App {
 }
 
 object combEx extends App {
-  def scalarProduct(xs: Vector[Double], ys: Vector[Double]): Vector[Double] =
+  def scalarProduct(xs: Vector[Double], ys: Vector[Double]): Double =
     (xs zip ys).map {
       case (x, y) => x * y
-    }
+    }.sum
 
-  def scalarProduct2(xs: Vector[Double], ys: Vector[Double]): Vector[Double] =
-    for {
-      (x, y) <- xs zip ys
-    } yield {
-      x * y
-    }
+  def scalarProduct2(xs: Vector[Double], ys: Vector[Double]): Double =
+    (for ((x, y) <- xs zip ys) yield x * y).sum
 
   println(
+    scalarProduct(Vector(1, 2, 3), Vector(3, 4, 5)),
     scalarProduct2(Vector(1, 2, 3), Vector(3, 4, 5))
   )
 }
