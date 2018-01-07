@@ -30,11 +30,7 @@ object nqueens extends App {
     val QUEEN_SYMBOL = " ♛ "
     val EMPTY_SYMBOL = "   "
 
-    (for {
-      c <- queens.indices
-      r <- queens.indices
-    }
-      yield (r, c))
+    (for (c <- queens.indices; r <- queens.indices) yield (r, c))
       .map({
         case (r, c) =>
           val pf =
@@ -52,18 +48,15 @@ object nqueens extends App {
       .map(l => l.mkString)
       .mkString("\n")
 
-    //
-    //
-    //    val lines =
-    //      for (col <- queens.reverse)
-    //        yield boardRow(0).updated(col, "[♛]").mkString
-    //
-    //    "\n" + lines.mkString("\n") + "\n"
-
   }
 
+  val res = queens(6)
   println(
-    queens(8) map ("\n" + show(_) + "\n")
+    res map ("\n" + show(_) + "\n")
+  )
+
+  println(
+    s"Variants found: ${res.size}"
   )
 }
 

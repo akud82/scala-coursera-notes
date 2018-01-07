@@ -1,4 +1,5 @@
 package week5
+import scala.collection.immutable
 import scala.concurrent.Future
 
 object triangles extends App {
@@ -8,11 +9,6 @@ object triangles extends App {
 
   // Haskell:
   // `[(a,b,c) | c <- [1..1000], b <- [1..c], a <- [1..b], b < 30, a^2 + b^2 == c^2, a + b + c == 24]`
-
-//  val f = Future {
-//    for {c <- 1 to 1000} yield c
-//  }
-
   for {
     c <- 1 to 1000
     b <- 1 to c
@@ -21,8 +17,35 @@ object triangles extends App {
     if a + b + c == 24
     if b < 30
   } yield {
-    c
+    (a, b, c)
   }
+
+  import scala.concurrent.ExecutionContext.Implicits.global
+
+  val withMaxSrc = (maxVal: Int) => Future {
+    Thread.sleep(500)
+    for {b <- 1 to maxVal} yield b
+  }
+
+  val res = for {
+    c <- withMaxSrc(1000)
+    b <- withMaxSrc(300)
+    a <- withMaxSrc(300)
+  } yield {
+    for {
+      cVal <- c
+      bVal <- b
+      aVal <- a
+      if (aVal * aVal) + (bVal * bVal) == (cVal * cVal)
+      if aVal + bVal + cVal == 24
+      if bVal < 30
+    } yield {
+      (aVal, bVal, cVal)
+    }
+  }
+
+  println(res.value)
+
 }
 
 object listfun {
