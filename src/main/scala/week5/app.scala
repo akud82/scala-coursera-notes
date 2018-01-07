@@ -1,4 +1,5 @@
 package week5
+import scala.concurrent.Future
 
 object triangles extends App {
   // a,b - cathetus, c - hypotenuse
@@ -7,6 +8,11 @@ object triangles extends App {
 
   // Haskell:
   // `[(a,b,c) | c <- [1..1000], b <- [1..c], a <- [1..b], b < 30, a^2 + b^2 == c^2, a + b + c == 24]`
+
+//  val f = Future {
+//    for {c <- 1 to 1000} yield c
+//  }
+
   for {
     c <- 1 to 1000
     b <- 1 to c
@@ -15,7 +21,7 @@ object triangles extends App {
     if a + b + c == 24
     if b < 30
   } yield {
-    println((a, b, c))
+    c
   }
 }
 
